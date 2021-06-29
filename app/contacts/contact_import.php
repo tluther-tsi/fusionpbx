@@ -321,6 +321,14 @@
 									
 									//get the parent table name
 									$parent = get_parent($schema, $table_name);
+									
+									/*
+									* TeleSource Update
+									* Tom Luther 6-29-2021
+									* Added check for existing sub-table field in record
+									* If found, increment to start new record
+									*/
+									if (!empty($array[$parent][$row_id][$table_name][$y][$field_name])){ $y++; }
 	
 									//remove formatting from the phone number
 									if ($field_name == "phone_number") {
@@ -365,7 +373,17 @@
 											}
 										}
 									}
-									if (is_array($array[$parent][$row_id])) { $y++; }
+									
+									/*
+									* TeleSource Update
+									* Tom Luther 6-29-2021
+									* Removed sub-table increment below
+									* If submitting multiple fields in sub-tables
+									* causes to split across multiple records
+									* rather than keeping record data together.
+									* This has been reimplemented above with additional check
+									*/
+// 									if (is_array($array[$parent][$row_id])) { $y++; }
 								}
 	
 							//process a chunk of the array
